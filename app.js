@@ -50,10 +50,11 @@ back.addEventListener('click',()=>{
 })
 
 function createForm() {
+    let index = 1;
     myLibrary.forEach((element)=>{
+
         let div = document.createElement('div');
         div.classList.add('par');
-        let index = 0;
         div.setAttribute('id',`index-${index}`);
         for(let i = 0; i < 3; i++){
             let span = document.createElement('p');
@@ -68,21 +69,37 @@ function createForm() {
             div.appendChild(span)
         }
 
-        for(let i = 0; i < 2; i++){
-            let button = document.createElement('button');
-            if(i === 1){
-                button.textContent = "Delete";
-                button.setAttribute('id', `btn-${index}`);
-            }else{
-                button.textContent = element.read;
-                button.setAttribute('id', `btn2-${index}`);
-            }
-            div.appendChild(button);
-        }
-        
+        createButtonDel(index, div, element);
+
+
         index++;
         bookshelf.appendChild(div);
     });
+}
+
+
+function createButtonDel(index, div, value) {
+    let button = document.createElement('button');
+    button.textContent = "DELETE";
+    button.addEventListener('click' , ()=>{
+
+    })
+    div.appendChild(button);
+
+    let button2 = document.createElement('button');
+    button2.textContent = value.read;
+    button2.addEventListener('click', ()=>{ 
+        if(value.read === 'Read'){
+            value.read = 'not read yet';
+            button2.textContent = value.read;
+            console.log(myLibrary);
+        }else{
+            value.read = 'Read';
+            button2.textContent = value.read;
+            console.log(myLibrary);
+        }
+    })
+    div.appendChild(button2);
 }
 
 let hobbit = new Book('The Hobbit','J.R.R. Tolkien', 295, 'not read yet');
@@ -91,8 +108,8 @@ btn.addEventListener('click', (e)=>{
     addBook.style.display = 'block';
     document.getElementById('popup').style.display= 'none';
     bookshelf.style.display = 'grid';
-    e.preventDefault();
     addBookToLibrary();
     clearValue();
     createForm();
+    console.log(myLibrary)
 })
