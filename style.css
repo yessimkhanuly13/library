@@ -5,18 +5,42 @@
 
 .container{
     display: flex;
-    justify-content: center;
+    align-items: center;
     flex-direction: column;
 }
 
-.popup{
-    display: flex;
-    justify-content: space-between;
+#popup{
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     border: 1px solid;
     padding: 4vh;
+    width: 10vw;
+    height: 20vh;
 }
 
 button{
     width: 6vw;
 }
 
+
+#bookshelf{
+    display: none;
+    border: 1px solid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 3vw;
+}
+
+.par{
+    border: 1px solid;
+    font-size: 40px;
+}
+
+.add{
+    display: block;
+}
+
+.par{
+    color:red;
+}
