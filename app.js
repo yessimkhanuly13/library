@@ -7,6 +7,7 @@ const btn = document.querySelector('#btn');
 const bookshelf = document.querySelector('#bookshelf');
 const back  = document.querySelector('#return');
 const addBook = document.querySelector('.add');
+const edit = document.querySelector('.edit');
 
 
 function Book(title, author, pages, read ){
@@ -14,10 +15,6 @@ function Book(title, author, pages, read ){
     this.author = author;
     this.pages = pages;
     this.read = read;
-    this.info = function () {
-     
-        return this.title + ' by ' + this.author + ' ,' + this.pages + ' pages, ' + this.read;
-    }
 }
 
 function addBookToLibrary(){
@@ -48,6 +45,9 @@ back.addEventListener('click',()=>{
     document.getElementById('popup').style.display="none";
     addBook.style.display = 'block';
 })
+
+
+
 
 function createForm() {
     let index = 1;
@@ -82,7 +82,8 @@ function createButtonDel(index, div, value) {
     let button = document.createElement('button');
     button.textContent = "DELETE";
     button.addEventListener('click' , ()=>{
-
+        myLibrary.splice(index - 1, 1);
+        document.getElementById(`index-${index}`).remove();
     })
     div.appendChild(button);
 
@@ -100,9 +101,11 @@ function createButtonDel(index, div, value) {
         }
     })
     div.appendChild(button2);
+
 }
 
 let hobbit = new Book('The Hobbit','J.R.R. Tolkien', 295, 'not read yet');
+myLibrary.push(hobbit)
 
 btn.addEventListener('click', (e)=>{
     addBook.style.display = 'block';

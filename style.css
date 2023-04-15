@@ -44,3 +44,8 @@ button{
 .par{
     color:red;
 }
+
+.edit{
+    display: none;
+    flex-direction: column;
+}
