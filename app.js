@@ -80,18 +80,20 @@ function createForm() {
 
 function createButtonDel(index, div, value) {
     let button = document.createElement('button');
-    button.textContent = "DELETE";
+    button.textContent = "Delete";
+    let div2 = document.createElement('div');
+    div2.classList.add('div-2');
     button.addEventListener('click' , ()=>{
         myLibrary.splice(index - 1, 1);
         document.getElementById(`index-${index}`).remove();
     })
-    div.appendChild(button);
+    div2.appendChild(button);
 
     let button2 = document.createElement('button');
     button2.textContent = value.read;
     button2.addEventListener('click', ()=>{ 
         if(value.read === 'Read'){
-            value.read = 'not read yet';
+            value.read = 'Not read yet';
             button2.textContent = value.read;
             console.log(myLibrary);
         }else{
@@ -100,12 +102,15 @@ function createButtonDel(index, div, value) {
             console.log(myLibrary);
         }
     })
-    div.appendChild(button2);
+    div2.appendChild(button2);
 
+    div.appendChild(div2);
 }
 
-let hobbit = new Book('The Hobbit','J.R.R. Tolkien', 295, 'not read yet');
+let hobbit = new Book('The Hobbit','J.R.R. Tolkien', 295, 'Not read yet');
+let dune = new Book('Dune', 'Frank Herbert', 896, 'Read');
 myLibrary.push(hobbit)
+myLibrary.push(dune)
 
 btn.addEventListener('click', (e)=>{
     addBook.style.display = 'block';
@@ -116,3 +121,5 @@ btn.addEventListener('click', (e)=>{
     createForm();
     console.log(myLibrary)
 })
+
+createForm();
