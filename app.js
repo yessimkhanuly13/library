@@ -9,12 +9,14 @@ const back  = document.querySelector('#return');
 const addBook = document.querySelector('.add');
 const edit = document.querySelector('.edit');
 
-
-function Book(title, author, pages, read ){
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.read = read;
+class Book {
+    constructor(title, author, pages, read){
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.read = read;  
+    }
+    
 }
 
 function addBookToLibrary(){
