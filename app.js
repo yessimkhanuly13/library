@@ -46,6 +46,8 @@ addBook.addEventListener('click', ()=>{
 back.addEventListener('click',()=>{
     document.getElementById('popup').style.display="none";
     addBook.style.display = 'block';
+    bookshelf.style.display = 'grid';
+    createForm();
 })
 
 
