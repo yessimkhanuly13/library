@@ -1,0 +1,90 @@
+
+@import url('https://fonts.googleapis.com/css2?family=DynaPuff&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'DynaPuff', cursive;
+    border-radius: 10%;
+}
+
+body{
+    background-image: url(https://cdn.wallpapersafari.com/0/80/KIiEkW.jpg);
+}
+
+.container{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 4vh;
+    width: 95vw;
+    height: 90vh;
+
+}
+
+input{
+    width: 6vw;
+    margin: 1vh;
+}
+
+#popup{
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid;
+    padding: 1vh;
+    background-color: bisque;
+}
+
+button{
+    width: 4vw;
+    margin: 1vh;
+    background-color: transparent;
+}
+
+.addBook{
+    display: flex;
+    align-items: center;
+    justify-content: centers;
+    font-size: 3vh;
+}
+
+#bookshelf{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 3vw;
+}
+
+.par{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2vw;
+    border: 1px solid;
+    font-size: 3vh;
+    background-color: bisque;
+}
+
+.add{
+    display: block;
+    font-size: large;
+    background-color: transparent;
+    border: 1px solid;
+    padding: auto;
+    background-color: bisque;
+}
+
+
+.edit{
+    display: none;
+    flex-direction: column;
+}
+
+.span-form{
+    text-align: center;
+}
+
+.div-2{
+    display: flex;
+    justify-content: space-around;
+}
