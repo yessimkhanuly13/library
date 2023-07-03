@@ -2,7 +2,8 @@ import {initializeApp} from 'firebase/app'
 import {
     getFirestore,
     collection,
-    getDocs
+    getDocs, addDoc,
+    deleteDoc, doc
 
 } from 'firebase/firestore'
 
@@ -28,10 +29,6 @@ const db = getFirestore();
 
 const colRef = collection(db, 'books')
 
-// const db = firebase.firestore();
-// db.collection(
-//     "library"
-// )
 
 const title = document.querySelector('#info');
 const author = document.querySelector('#info1');
@@ -44,23 +41,35 @@ const addBook = document.querySelector('.add');
 const edit = document.querySelector('.edit');
 
 
-class Book {
-    constructor(title, author, pages, read){
-        this.title = title;
-        this.author = author;
-        this.pages = pages;
-        this.read = read;  
-    }
+// class Book {
+//     constructor(title, author, pages, read){
+//         this.title = title;
+//         this.author = author;
+//         this.pages = pages;
+//         this.read = read;  
+//     }
     
-}
+// }
 
 function addBookToLibrary(){
     if(title.value.length === 0 || author.value.length === 0 || pages.value.length === 0){
         alert("Please fill all the fields!");
         return;
     }
-    const newBook = new Book(title.value, author.value, pages.value, read.value);
-    myLibrary.push(newBook);
+    // const newBook = new Book(title.value, author.value, pages.value, read.value);
+    
+    
+    addDoc(colRef, {
+        title: title.value,
+        author: author.value,
+        pages: pages.value,
+        read: read.value
+    })
+        .then((docRef)=>{
+           console.log(docRef.id)
+        })
+
+        console.log(myLibrary)
 }
 
 function clearValue() {
@@ -71,7 +80,8 @@ function clearValue() {
     return ;
 }
 
-addBook.addEventListener('click', ()=>{
+addBook.addEventListener('click', (e)=>{
+    e.preventDefault();
     document.getElementById('popup').style.display="flex";
     addBook.style.display = 'none';
     bookshelf.textContent = '';
@@ -122,9 +132,12 @@ function createButtonDel(index, div, value) {
     button.textContent = "Delete";
     let div2 = document.createElement('div');
     div2.classList.add('div-2');
-    button.addEventListener('click' , ()=>{
+    button.addEventListener('click' , (e)=>{
+        e.preventDefault();
         myLibrary.splice(index - 1, 1);
         document.getElementById(`index-${index}`).remove();
+        const docRef = doc(db, 'books', element.id);
+        console.log(docRef)
     })
     div2.appendChild(button);
 
@@ -146,13 +159,6 @@ function createButtonDel(index, div, value) {
     div.appendChild(div2);
 }
 
-// db.add(myLibrary)
-//     .then((docRef) => {
-//         console.log("Новый документ добавлен с идентификатором:", docRef.id);
-//     })
-//     .catch((error) => {
-//         console.error("Ошибка при добавлении документа:", error);
-//     });
 
 btn.addEventListener('click', (e)=>{
     addBook.style.display = 'block';
@@ -161,14 +167,11 @@ btn.addEventListener('click', (e)=>{
     addBookToLibrary();
     clearValue();
     createForm();
-    console.log(myLibrary)
 })
 
 getDocs(colRef)
     .then((snapshot)=>{
         snapshot.docs.forEach((doc)=>{
-            myLibrary.push({...doc.data()})
+            myLibrary.push({...doc.data(), id:doc.id})
         })
-        console.log(myLibrary)
-        createForm();
 })
