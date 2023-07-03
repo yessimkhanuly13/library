@@ -1,4 +1,14 @@
 import {initializeApp} from 'firebase/app'
+import {
+    getFirestore,
+    collection,
+    getDocs
+
+} from 'firebase/firestore'
+
+let myLibrary = [];
+// import 'firebase/firestore'
+
 
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -14,9 +24,15 @@ const firebaseConfig = {
 
 initializeApp(firebaseConfig);
 
+const db = getFirestore();
 
+const colRef = collection(db, 'books')
 
-let myLibrary = [];
+// const db = firebase.firestore();
+// db.collection(
+//     "library"
+// )
+
 const title = document.querySelector('#info');
 const author = document.querySelector('#info1');
 const pages = document.querySelector('#info2');
@@ -27,10 +43,6 @@ const back  = document.querySelector('#return');
 const addBook = document.querySelector('.add');
 const edit = document.querySelector('.edit');
 
-
-// firebase.initializeApp(FIREBASE_CONFIG)
-
-// const db = firebase.firestore();
 
 class Book {
     constructor(title, author, pages, read){
@@ -134,10 +146,13 @@ function createButtonDel(index, div, value) {
     div.appendChild(div2);
 }
 
-let hobbit = new Book('The Hobbit','J.R.R. Tolkien', 295, 'Not read yet');
-let dune = new Book('Dune', 'Frank Herbert', 896, 'Read');
-myLibrary.push(hobbit)
-myLibrary.push(dune)
+// db.add(myLibrary)
+//     .then((docRef) => {
+//         console.log("Новый документ добавлен с идентификатором:", docRef.id);
+//     })
+//     .catch((error) => {
+//         console.error("Ошибка при добавлении документа:", error);
+//     });
 
 btn.addEventListener('click', (e)=>{
     addBook.style.display = 'block';
@@ -149,4 +164,11 @@ btn.addEventListener('click', (e)=>{
     console.log(myLibrary)
 })
 
-createForm();
+getDocs(colRef)
+    .then((snapshot)=>{
+        snapshot.docs.forEach((doc)=>{
+            myLibrary.push({...doc.data()})
+        })
+        console.log(myLibrary)
+        createForm();
+})
