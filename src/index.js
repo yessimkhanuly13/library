@@ -57,7 +57,7 @@ function addBookToLibrary(){
         return;
     }
     // const newBook = new Book(title.value, author.value, pages.value, read.value);
-    
+
     
     addDoc(colRef, {
         title: title.value,
@@ -65,11 +65,17 @@ function addBookToLibrary(){
         pages: pages.value,
         read: read.value
     })
-        .then((docRef)=>{
-           console.log(docRef.id)
-        })
+        .then(()=>{
+            getDocs(colRef)
+                .then((snapshot)=>{
+                    myLibrary = [];
+                    snapshot.docs.forEach((doc)=>{
+                        myLibrary.push({...doc.data(), id:doc.id})
+                    })
+                    createForm();
+                })
+        })  
 
-        console.log(myLibrary)
 }
 
 function clearValue() {
@@ -81,7 +87,6 @@ function clearValue() {
 }
 
 addBook.addEventListener('click', (e)=>{
-    e.preventDefault();
     document.getElementById('popup').style.display="flex";
     addBook.style.display = 'none';
     bookshelf.textContent = '';
@@ -104,7 +109,7 @@ function createForm() {
 
         let div = document.createElement('div');
         div.classList.add('par');
-        div.setAttribute('id',`index-${index}`);
+        div.setAttribute('id',`${element.id}`);
         for(let i = 0; i < 3; i++){
             let span = document.createElement('p');
             span.classList.add('span-form');
@@ -135,8 +140,15 @@ function createButtonDel(index, div, value) {
     button.addEventListener('click' , (e)=>{
         e.preventDefault();
         myLibrary.splice(index - 1, 1);
-        document.getElementById(`index-${index}`).remove();
-        const docRef = doc(db, 'books', element.id);
+        document.getElementById(`${value.id}`).remove();
+        const docRef = doc(db, 'books', value.id);
+        deleteDoc(docRef)
+            .then(()=>{
+                console.log("Deleted succesfully")
+            })
+            .catch((err)=>{
+                console.log(err)
+            })
         console.log(docRef)
     })
     div2.appendChild(button);
@@ -166,12 +178,14 @@ btn.addEventListener('click', (e)=>{
     bookshelf.style.display = 'grid';
     addBookToLibrary();
     clearValue();
-    createForm();
 })
 
+
 getDocs(colRef)
-    .then((snapshot)=>{
-        snapshot.docs.forEach((doc)=>{
-            myLibrary.push({...doc.data(), id:doc.id})
-        })
+.then((snapshot)=>{
+    console.log(snapshot)
+    snapshot.docs.forEach((doc)=>{
+        myLibrary.push({...doc.data(), id:doc.id})
+    })
+    createForm();
 })
