@@ -3,7 +3,8 @@ import {
     getFirestore,
     collection,
     getDocs, addDoc,
-    deleteDoc, doc
+    deleteDoc, doc,
+    updateDoc
 
 } from 'firebase/firestore'
 
@@ -137,11 +138,11 @@ function createButtonDel(index, div, value) {
     button.textContent = "Delete";
     let div2 = document.createElement('div');
     div2.classList.add('div-2');
+    const docRef = doc(db, 'books', value.id);
     button.addEventListener('click' , (e)=>{
         e.preventDefault();
         myLibrary.splice(index - 1, 1);
         document.getElementById(`${value.id}`).remove();
-        const docRef = doc(db, 'books', value.id);
         deleteDoc(docRef)
             .then(()=>{
                 console.log("Deleted succesfully")
@@ -159,11 +160,19 @@ function createButtonDel(index, div, value) {
         if(value.read === 'Read'){
             value.read = 'Not read yet';
             button2.textContent = value.read;
-            console.log(myLibrary);
+            updateDoc(docRef, {read:"Not read yet"})
+                .then(()=>{ 
+                    console.log("Success!")
+                })
+
         }else{
             value.read = 'Read';
             button2.textContent = value.read;
-            console.log(myLibrary);
+            updateDoc(docRef, {read:"Read"})
+                .then(()=>{ 
+                    console.log("Success!")
+                })
+       
         }
     })
     div2.appendChild(button2);
